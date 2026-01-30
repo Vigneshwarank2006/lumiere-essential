@@ -1,19 +1,42 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { updateProfile } from 'firebase/auth';
+import { auth } from '../firebase';
 import { Button } from '../components/Button';
+import { useAuth } from '../context/AuthContext';
 
 export const Signup: React.FC = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const { signup } = useAuth();
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
+    setError('');
+
+    // Get form data
+    const formData = new FormData(e.target as HTMLFormElement);
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
+    try {
+      await signup(email, password);
+      // Update profile name
+      if (auth.currentUser) {
+        await updateProfile(auth.currentUser, {
+          displayName: name
+        });
+      }
       navigate('/');
-    }, 1500);
+    } catch (err) {
+      setError('Failed to create account. Please try again.');
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -25,6 +48,12 @@ export const Signup: React.FC = () => {
             <h1 className="font-serif text-3xl text-stone-900">Create Account</h1>
             <p className="mt-2 text-stone-500">Join us for exclusive offers and skincare tips.</p>
           </div>
+
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">
+              {error}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             <div className="space-y-4">
@@ -88,9 +117,9 @@ export const Signup: React.FC = () => {
 
       {/* Image Section - Hidden on mobile, appearing on right for visual interest */}
       <div className="hidden lg:block w-1/2 relative bg-stone-100 order-1 lg:order-2">
-        <img 
-          src="https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?q=80&w=1887&auto=format&fit=crop" 
-          alt="Minimalist skincare products" 
+        <img
+          src="https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?q=80&w=1887&auto=format&fit=crop"
+          alt="Minimalist skincare products"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-stone-900/5" />
