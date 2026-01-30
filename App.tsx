@@ -12,6 +12,7 @@ import { Checkout } from './pages/Checkout';
 import { Confirmation } from './pages/Confirmation';
 import { Login } from './pages/Login';
 import { Signup } from './pages/Signup';
+import { ProtectedRoute } from './components/ProtectedRoute';
 
 function ScrollToTop() {
   // Fix: useLocation is part of react-router-dom, not the React object
@@ -38,8 +39,16 @@ const App: React.FC = () => {
                 <Route path="/shop" element={<ProductListing />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/cart" element={<Cart />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/confirmation" element={<Confirmation />} />
+                <Route path="/checkout" element={
+                  <ProtectedRoute>
+                    <Checkout />
+                  </ProtectedRoute>
+                } />
+                <Route path="/confirmation" element={
+                  <ProtectedRoute>
+                    <Confirmation />
+                  </ProtectedRoute>
+                } />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="*" element={<Home />} />

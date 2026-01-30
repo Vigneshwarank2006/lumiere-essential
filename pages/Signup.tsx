@@ -23,7 +23,7 @@ export const Signup: React.FC = () => {
     const password = formData.get('password') as string;
 
     try {
-      await signup(email, password);
+      await signup(email, password, name);
       // Update profile name
       if (auth.currentUser) {
         await updateProfile(auth.currentUser, {
