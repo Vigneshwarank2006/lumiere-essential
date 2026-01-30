@@ -6,12 +6,12 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID
+    apiKey: "AIzaSyAYGMV8kvrGHbhbL4a7bEP8lPJYIeXnGVQ",
+    authDomain: "lumiere-essentials-113f5.firebaseapp.com",
+    projectId: "lumiere-essentials-113f5",
+    storageBucket: "lumiere-essentials-113f5.firebasestorage.app",
+    messagingSenderId: "699027872588",
+    appId: "1:699027872588:web:76254a0713e801de530de9"
 };
 
 // Initialize Firebase
